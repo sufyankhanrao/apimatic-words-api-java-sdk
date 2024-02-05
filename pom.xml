@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.sufyankhanrao</groupId>
   <artifactId>apimatic-words-api-sdk</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
   <packaging>jar</packaging>
   <name>apimatic-words-api-sdk</name>
   <description>This is an APIMatic SDK targeting the words-api.</description>
