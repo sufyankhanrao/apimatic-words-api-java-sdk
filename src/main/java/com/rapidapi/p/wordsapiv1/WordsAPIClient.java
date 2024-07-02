@@ -6,6 +6,8 @@
 
 package com.rapidapi.p.wordsapiv1;
 
+import com.rapidapi.p.wordsapiv1.authentication.CustomHeaderAuthenticationManager;
+import com.rapidapi.p.wordsapiv1.authentication.CustomHeaderAuthenticationModel;
 import com.rapidapi.p.wordsapiv1.controllers.APIsController;
 import com.rapidapi.p.wordsapiv1.http.client.HttpCallback;
 import com.rapidapi.p.wordsapiv1.http.client.HttpClientConfiguration;
@@ -18,6 +20,7 @@ import io.apimatic.okhttpclient.adapter.OkClient;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Gateway class for the library.
@@ -56,10 +59,14 @@ public final class WordsAPIClient implements Configuration {
     private CustomHeaderAuthenticationManager customHeaderAuthenticationManager;
 
     /**
+     * The instance of CustomHeaderAuthenticationModel.
+     */
+    private CustomHeaderAuthenticationModel customHeaderAuthenticationModel;
+
+    /**
      * Map of authentication Managers.
      */
-    private Map<String, Authentication> authentications;
-
+    private Map<String, Authentication> authentications = new HashMap<String, Authentication>();
 
     /**
      * Callback to be called before and after the HTTP call for an endpoint is made.
@@ -67,29 +74,24 @@ public final class WordsAPIClient implements Configuration {
     private final HttpCallback httpCallback;
 
     private WordsAPIClient(Environment environment, HttpClient httpClient,
-            ReadonlyHttpClientConfiguration httpClientConfig, String xRapidAPIKey,
-            Map<String, Authentication> authentications, HttpCallback httpCallback) {
+            ReadonlyHttpClientConfiguration httpClientConfig,
+            CustomHeaderAuthenticationModel customHeaderAuthenticationModel,
+            HttpCallback httpCallback) {
         this.environment = environment;
         this.httpClient = httpClient;
         this.httpClientConfig = httpClientConfig;
         this.httpCallback = httpCallback;
-        this.authentications = 
-                (authentications == null) ? new HashMap<>() : new HashMap<>(authentications);
-        if (this.authentications.containsKey("global")) {
-            this.customHeaderAuthenticationManager =
-                    (CustomHeaderAuthenticationManager) this.authentications.get("global");
-        }
 
-        if (!this.authentications.containsKey("global")
-                || !getCustomHeaderAuthenticationCredentials().equals(xRapidAPIKey)) {
-            this.customHeaderAuthenticationManager = new CustomHeaderAuthenticationManager(
-                    xRapidAPIKey);
-            this.authentications.put("global", customHeaderAuthenticationManager);
-        }
+        this.customHeaderAuthenticationModel = customHeaderAuthenticationModel;
+
+        this.customHeaderAuthenticationManager = new CustomHeaderAuthenticationManager(
+                customHeaderAuthenticationModel);
+        this.authentications.put("RapidAPI-Key", customHeaderAuthenticationManager);
 
         GlobalConfiguration globalConfig = new GlobalConfiguration.Builder()
-                .authentication(this.authentications).compatibilityFactory(compatibilityFactory)
                 .httpClient(httpClient).baseUri(server -> getBaseUri(server))
+                .compatibilityFactory(compatibilityFactory)
+                .authentication(this.authentications)
                 .callback(httpCallback)
                 .userAgent(userAgent)
                 .build();
@@ -141,6 +143,14 @@ public final class WordsAPIClient implements Configuration {
      */
     public CustomHeaderAuthenticationCredentials getCustomHeaderAuthenticationCredentials() {
         return customHeaderAuthenticationManager;
+    }
+
+    /**
+     * The auth credential model for CustomHeaderAuthentication.
+     * @return the instance of CustomHeaderAuthenticationModel
+     */
+    public CustomHeaderAuthenticationModel getCustomHeaderAuthenticationModel() {
+        return customHeaderAuthenticationModel;
     }
     /**
      * The timeout to use for making HTTP requests.
@@ -217,11 +227,10 @@ public final class WordsAPIClient implements Configuration {
         Builder builder = new Builder();
         builder.environment = getEnvironment();
         builder.httpClient = getHttpClient();
-        builder.xRapidAPIKey = getCustomHeaderAuthenticationCredentials().getXRapidAPIKey();
-        builder.authentications = authentications;
+        builder.customHeaderAuthenticationCredentials(getCustomHeaderAuthenticationModel()
+                .toBuilder().build());
         builder.httpCallback = httpCallback;
-        builder.httpClientConfig(configBldr -> configBldr =
-                ((HttpClientConfiguration) httpClientConfig).newBuilder());
+        builder.httpClientConfig(() -> ((HttpClientConfiguration) httpClientConfig).newBuilder());
         return builder;
     }
 
@@ -232,8 +241,8 @@ public final class WordsAPIClient implements Configuration {
 
         private Environment environment = Environment.PRODUCTION;
         private HttpClient httpClient;
-        private String xRapidAPIKey = "";
-        private Map<String, Authentication> authentications = null;
+        private CustomHeaderAuthenticationModel customHeaderAuthenticationModel =
+                new CustomHeaderAuthenticationModel.Builder("").build();
         private HttpCallback httpCallback = null;
         private HttpClientConfiguration.Builder httpClientConfigBuilder =
                 new HttpClientConfiguration.Builder();
@@ -242,13 +251,26 @@ public final class WordsAPIClient implements Configuration {
         /**
          * Credentials setter for CustomHeaderAuthentication.
          * @param xRapidAPIKey String value for xRapidAPIKey.
-         * @return Builder
+         * @deprecated This builder method is deprecated.
+         * Use {@link #customHeaderAuthenticationCredentials(CustomHeaderAuthenticationModel) customHeaderAuthenticationCredentials} instead.
+         * @return The current instance of builder.
          */
+        @Deprecated
         public Builder customHeaderAuthenticationCredentials(String xRapidAPIKey) {
-            if (xRapidAPIKey == null) {
-                throw new NullPointerException("XRapidAPIKey cannot be null.");
-            }
-            this.xRapidAPIKey = xRapidAPIKey;
+            customHeaderAuthenticationModel = customHeaderAuthenticationModel.toBuilder()
+                .xRapidAPIKey(xRapidAPIKey)
+                .build();
+            return this;
+        }
+
+        /**
+         * Credentials setter for CustomHeaderAuthenticationCredentials.
+         * @param customHeaderAuthenticationModel The instance of CustomHeaderAuthenticationModel.
+         * @return The current instance of builder.
+         */
+        public Builder customHeaderAuthenticationCredentials(
+                CustomHeaderAuthenticationModel customHeaderAuthenticationModel) {
+            this.customHeaderAuthenticationModel = customHeaderAuthenticationModel;
             return this;
         }
 
@@ -298,6 +320,18 @@ public final class WordsAPIClient implements Configuration {
         }
 
         /**
+         * Private Setter for the Builder of httpClientConfiguration, takes in an operation to be performed
+         * on the builder instance of HTTP client configuration.
+         * 
+         * @param supplier Supplier for the builder of httpClientConfiguration.
+         * @return Builder
+         */
+        private Builder httpClientConfig(Supplier<HttpClientConfiguration.Builder> supplier) {
+            httpClientConfigBuilder = supplier.get();
+            return this;
+        }
+
+        /**
          * Builds a new WordsAPIClient object using the set fields.
          * @return WordsAPIClient
          */
@@ -305,8 +339,8 @@ public final class WordsAPIClient implements Configuration {
             HttpClientConfiguration httpClientConfig = httpClientConfigBuilder.build();
             httpClient = new OkClient(httpClientConfig.getConfiguration(), compatibilityFactory);
 
-            return new WordsAPIClient(environment, httpClient, httpClientConfig, xRapidAPIKey,
-                    authentications, httpCallback);
+            return new WordsAPIClient(environment, httpClient, httpClientConfig,
+                    customHeaderAuthenticationModel, httpCallback);
         }
     }
 }

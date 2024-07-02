@@ -17,7 +17,12 @@ import java.util.TreeMap;
  * Environment to be used.
  */
 public enum Environment {
-    PRODUCTION;
+    PRODUCTION,
+
+    /**
+     * Unknown values will be mapped by this enum member
+     */
+    _UNKNOWN;
 
 
     private static TreeMap<String, Environment> valueMap = new TreeMap<>();
@@ -25,6 +30,7 @@ public enum Environment {
 
     static {
         PRODUCTION.value = "production";
+        _UNKNOWN.value = null;
 
         valueMap.put("production", PRODUCTION);
     }
@@ -38,8 +44,7 @@ public enum Environment {
     @JsonCreator
     public static Environment constructFromString(String toConvert) throws IOException {
         Environment enumValue = fromString(toConvert);
-        if (enumValue == null)
-        {
+        if (enumValue == null) {
             throw new IOException("Unable to create enum instance with value: " + toConvert);
         }
         return enumValue;
@@ -51,6 +56,9 @@ public enum Environment {
      * @return The enum member against the given string value.
      */
     public static Environment fromString(String toConvert) {
+        if (!valueMap.containsKey(toConvert)) {
+            return _UNKNOWN;
+        }
         return valueMap.get(toConvert);
     }
 
@@ -68,6 +76,9 @@ public enum Environment {
      */
     @Override
     public String toString() {
+        if (value == null) {
+            return null;
+        }
         return value.toString();
     }
 

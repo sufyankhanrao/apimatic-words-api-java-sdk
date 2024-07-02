@@ -97,94 +97,6 @@ public class APIsControllerTest extends BaseControllerTest {
     }
 
     /**
-     * Get definitions of a word, including the part of speech.
-     * @throws Throwable exception if occurs.
-     */
-    @Test
-    public void testTestDefinitions() throws Exception {
-        // Parameters for the API call
-        String word = 
-                "lovely";
-
-        // Set callback and perform API call
-        DefinitionsResponse result = null;
-        try {
-            result = controller.definitions(word);
-        } catch (ApiException e) {
-            // Empty block
-        }
-
-        // Test whether the response is null
-        assertNotNull("Response is null", 
-                httpResponse.getResponse());
-        // Test response code
-        assertEquals("Status is not 200", 
-                200, httpResponse.getResponse().getStatusCode());
-
-        // Test headers
-        Map<String, String> headers = new LinkedHashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        
-        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
-                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
-
-        // Test whether the captured response is as we expected
-        assertNotNull("Result does not exist", 
-                result);
-        assertTrue("Response body does not match in keys", 
-                TestHelper.isJsonObjectProperSubsetOf(
-                "{\"word\":\"lovely\",\"definition\":[\"lovable especially in a childlike or naive "
-                + "way\",\"a very pretty girl who works as a photographer's model\",\"appealing to "
-                + "the emotions as well as the eye\"]}",
-                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
-                false, true, false));
-    }
-
-    /**
-     * How to pronounce a word, according to the International Phonetic Alphabet. May include
-     * multiple results if the word is pronounced differently depending on its part of speech.
-     * @throws Throwable exception if occurs.
-     */
-    @Test
-    public void testTestPronunciation() throws Exception {
-        // Parameters for the API call
-        String word = 
-                "wind";
-
-        // Set callback and perform API call
-        PronunciationResponse result = null;
-        try {
-            result = controller.pronunciation(word);
-        } catch (ApiException e) {
-            // Empty block
-        }
-
-        // Test whether the response is null
-        assertNotNull("Response is null", 
-                httpResponse.getResponse());
-        // Test response code
-        assertEquals("Status is not 200", 
-                200, httpResponse.getResponse().getStatusCode());
-
-        // Test headers
-        Map<String, String> headers = new LinkedHashMap<String, String>();
-        headers.put("Content-Type", "application/json");
-        
-        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
-                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
-
-        // Test whether the captured response is as we expected
-        assertNotNull("Result does not exist", 
-                result);
-        assertTrue("Response body does not match in keys", 
-                TestHelper.isJsonObjectProperSubsetOf(
-                "{\"word\":\"wind\",\"pronunciation\":{\"all\":\"wɪnd\",\"noun\":\"wɪnd\",\"verb\":"
-                + "\"waɪnd\"}}",
-                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
-                false, true, false));
-    }
-
-    /**
      * Retrieve information about a word. Results can include definitions, part of speech, synonyms,
      * related words, syllables, and pronunciation. This method is useful to see which relationships
      * are attached to which definition and part of speech of a word.
@@ -306,6 +218,94 @@ public class APIsControllerTest extends BaseControllerTest {
                 TestHelper.isJsonObjectProperSubsetOf(
                 "{\"word\":\"wind\",\"frequency\":{\"zipf\":4.81,\"perMillion\":64.22,\"diversity"
                 + "\":0.2}}",
+                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
+                false, true, false));
+    }
+
+    /**
+     * Get definitions of a word, including the part of speech.
+     * @throws Throwable exception if occurs.
+     */
+    @Test
+    public void testTestDefinitions() throws Exception {
+        // Parameters for the API call
+        String word = 
+                "lovely";
+
+        // Set callback and perform API call
+        DefinitionsResponse result = null;
+        try {
+            result = controller.definitions(word);
+        } catch (ApiException e) {
+            // Empty block
+        }
+
+        // Test whether the response is null
+        assertNotNull("Response is null", 
+                httpResponse.getResponse());
+        // Test response code
+        assertEquals("Status is not 200", 
+                200, httpResponse.getResponse().getStatusCode());
+
+        // Test headers
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        
+        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
+                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
+
+        // Test whether the captured response is as we expected
+        assertNotNull("Result does not exist", 
+                result);
+        assertTrue("Response body does not match in keys", 
+                TestHelper.isJsonObjectProperSubsetOf(
+                "{\"word\":\"lovely\",\"definition\":[\"lovable especially in a childlike or naive "
+                + "way\",\"a very pretty girl who works as a photographer's model\",\"appealing to "
+                + "the emotions as well as the eye\"]}",
+                TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
+                false, true, false));
+    }
+
+    /**
+     * How to pronounce a word, according to the International Phonetic Alphabet. May include
+     * multiple results if the word is pronounced differently depending on its part of speech.
+     * @throws Throwable exception if occurs.
+     */
+    @Test
+    public void testTestPronunciation() throws Exception {
+        // Parameters for the API call
+        String word = 
+                "wind";
+
+        // Set callback and perform API call
+        PronunciationResponse result = null;
+        try {
+            result = controller.pronunciation(word);
+        } catch (ApiException e) {
+            // Empty block
+        }
+
+        // Test whether the response is null
+        assertNotNull("Response is null", 
+                httpResponse.getResponse());
+        // Test response code
+        assertEquals("Status is not 200", 
+                200, httpResponse.getResponse().getStatusCode());
+
+        // Test headers
+        Map<String, String> headers = new LinkedHashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        
+        assertTrue("Headers do not match", TestHelper.areHeadersProperSubsetOf(
+                headers, httpResponse.getResponse().getHeaders().asSimpleMap(), true));
+
+        // Test whether the captured response is as we expected
+        assertNotNull("Result does not exist", 
+                result);
+        assertTrue("Response body does not match in keys", 
+                TestHelper.isJsonObjectProperSubsetOf(
+                "{\"word\":\"wind\",\"pronunciation\":{\"all\":\"wɪnd\",\"noun\":\"wɪnd\",\"verb\":"
+                + "\"waɪnd\"}}",
                 TestHelper.convertStreamToString(httpResponse.getResponse().getRawBody()), 
                 false, true, false));
     }

@@ -6,6 +6,7 @@
 
 package com.rapidapi.p.wordsapiv1;
 
+import com.rapidapi.p.wordsapiv1.authentication.CustomHeaderAuthenticationModel;
 import com.rapidapi.p.wordsapiv1.http.client.ReadonlyHttpClientConfiguration;
 
 /**
@@ -36,6 +37,12 @@ public interface Configuration {
      * @return customHeaderAuthenticationCredentials
      */
     CustomHeaderAuthenticationCredentials getCustomHeaderAuthenticationCredentials();
+
+    /**
+     * The auth credential model for CustomHeaderAuthentication.
+     * @return the instance of CustomHeaderAuthenticationModel
+     */
+    CustomHeaderAuthenticationModel getCustomHeaderAuthenticationModel();
 
     /**
      * Get base URI by current environment.
