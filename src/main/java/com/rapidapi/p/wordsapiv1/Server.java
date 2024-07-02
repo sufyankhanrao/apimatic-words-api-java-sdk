@@ -17,12 +17,7 @@ import java.util.TreeMap;
  * Server to be used.
  */
 public enum Server {
-    ENUM_DEFAULT,
-
-    /**
-     * Unknown values will be mapped by this enum member
-     */
-    _UNKNOWN;
+    ENUM_DEFAULT;
 
 
     private static TreeMap<String, Server> valueMap = new TreeMap<>();
@@ -30,7 +25,6 @@ public enum Server {
 
     static {
         ENUM_DEFAULT.value = "default";
-        _UNKNOWN.value = null;
 
         valueMap.put("default", ENUM_DEFAULT);
     }
@@ -56,9 +50,6 @@ public enum Server {
      * @return The enum member against the given string value.
      */
     public static Server fromString(String toConvert) {
-        if (!valueMap.containsKey(toConvert)) {
-            return _UNKNOWN;
-        }
         return valueMap.get(toConvert);
     }
 
@@ -76,9 +67,6 @@ public enum Server {
      */
     @Override
     public String toString() {
-        if (value == null) {
-            return null;
-        }
         return value.toString();
     }
 
