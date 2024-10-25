@@ -13,12 +13,12 @@ Install the SDK by adding the following dependency in your project's pom.xml fil
 <dependency>
   <groupId>io.github.sufyankhanrao</groupId>
   <artifactId>apimatic-words-api-sdk</artifactId>
-  <version>0.0.17</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
 You can also view the package at:
-https://central.sonatype.com/artifact/io.github.sufyankhanrao/apimatic-words-api-sdk/0.0.17
+https://central.sonatype.com/artifact/io.github.sufyankhanrao/apimatic-words-api-sdk/1.0.0
 
 ## Test the SDK
 
@@ -32,14 +32,14 @@ In Eclipse, for running the tests do the following:
 
 ## Initialize the API Client
 
-**_Note:_** Documentation for the client can be found [here.](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/client.md)
+**_Note:_** Documentation for the client can be found [here.](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/client.md)
 
 The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `httpClientConfig` | [`Consumer<HttpClientConfiguration.Builder>`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-client-configuration-builder.md) | Set up Http Client Configuration instance. |
-| `customHeaderAuthenticationCredentials` | [`CustomHeaderAuthenticationCredentials`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/$a/https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/custom-header-signature.md) | The Credentials Setter for Custom Header Signature |
+| `httpClientConfig` | [`Consumer<HttpClientConfiguration.Builder>`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-client-configuration-builder.md) | Set up Http Client Configuration instance. |
+| `customHeaderAuthenticationCredentials` | [`CustomHeaderAuthenticationCredentials`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/auth/custom-header-signature.md) | The Credentials Setter for Custom Header Signature |
 
 The API client can be initialized as follows:
 
@@ -58,24 +58,24 @@ WordsAPIClient client = new WordsAPIClient.Builder()
 
 This API uses the following authentication schemes.
 
-* [`RapidAPI-Key (Custom Header Signature)`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/$a/https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/custom-header-signature.md)
+* [`RapidAPI-Key (Custom Header Signature)`](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/auth/custom-header-signature.md)
 
 ## List of APIs
 
-* [AP Is](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/controllers/ap-is.md)
+* [AP Is](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/controllers/ap-is.md)
 
 ## Classes Documentation
 
-* [Utility Classes](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/utility-classes.md)
-* [HttpRequest](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-request.md)
-* [HttpResponse](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-response.md)
-* [HttpStringResponse](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-string-response.md)
-* [HttpContext](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-context.md)
-* [HttpBodyRequest](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-body-request.md)
-* [HttpCallback Interface](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-callback-interface.md)
-* [Headers](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/headers.md)
-* [ApiException](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/api-exception.md)
-* [Configuration Interface](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/configuration-interface.md)
-* [HttpClientConfiguration](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-client-configuration.md)
-* [HttpClientConfiguration.Builder](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/0.0.17/doc/http-client-configuration-builder.md)
+* [Utility Classes](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/utility-classes.md)
+* [HttpRequest](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-request.md)
+* [HttpResponse](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-response.md)
+* [HttpStringResponse](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-string-response.md)
+* [HttpContext](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-context.md)
+* [HttpBodyRequest](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-body-request.md)
+* [HttpCallback Interface](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-callback-interface.md)
+* [Headers](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/headers.md)
+* [ApiException](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/api-exception.md)
+* [Configuration Interface](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/configuration-interface.md)
+* [HttpClientConfiguration](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-client-configuration.md)
+* [HttpClientConfiguration.Builder](https://www.github.com/sufyankhanrao/apimatic-words-api-java-sdk/tree/1.0.0/doc/http-client-configuration-builder.md)
 

@@ -86,6 +86,108 @@ public final class APIsController extends BaseController {
     }
 
     /**
+     * Get definitions of a word, including the part of speech.
+     * @param  word  Required parameter: The word to search the definitions for.
+     * @return    Returns the DefinitionsResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public DefinitionsResponse definitions(
+            final String word) throws ApiException, IOException {
+        return prepareDefinitionsRequest(word).execute();
+    }
+
+    /**
+     * Get definitions of a word, including the part of speech.
+     * @param  word  Required parameter: The word to search the definitions for.
+     * @return    Returns the DefinitionsResponse response from the API call
+     */
+    public CompletableFuture<DefinitionsResponse> definitionsAsync(
+            final String word) {
+        try { 
+            return prepareDefinitionsRequest(word).executeAsync(); 
+        } catch (Exception e) {  
+            throw new CompletionException(e); 
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for definitions.
+     */
+    private ApiCall<DefinitionsResponse, ApiException> prepareDefinitionsRequest(
+            final String word) throws IOException {
+        return new ApiCall.Builder<DefinitionsResponse, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/words/{word}/definitions")
+                        .templateParam(param -> param.key("word").value(word)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("RapidAPI-Key"))
+                        .httpMethod(HttpMethod.GET))
+                .responseHandler(responseHandler -> responseHandler
+                        .deserializer(
+                                response -> ApiHelper.deserialize(response, DefinitionsResponse.class))
+                        .nullify404(false)
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
+     * How to pronounce a word, according to the International Phonetic Alphabet. May include
+     * multiple results if the word is pronounced differently depending on its part of speech.
+     * @param  word  Required parameter: The word to search pronunciation for.
+     * @return    Returns the PronunciationResponse response from the API call
+     * @throws    ApiException    Represents error response from the server.
+     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
+     */
+    public PronunciationResponse pronunciation(
+            final String word) throws ApiException, IOException {
+        return preparePronunciationRequest(word).execute();
+    }
+
+    /**
+     * How to pronounce a word, according to the International Phonetic Alphabet. May include
+     * multiple results if the word is pronounced differently depending on its part of speech.
+     * @param  word  Required parameter: The word to search pronunciation for.
+     * @return    Returns the PronunciationResponse response from the API call
+     */
+    public CompletableFuture<PronunciationResponse> pronunciationAsync(
+            final String word) {
+        try { 
+            return preparePronunciationRequest(word).executeAsync(); 
+        } catch (Exception e) {  
+            throw new CompletionException(e); 
+        }
+    }
+
+    /**
+     * Builds the ApiCall object for pronunciation.
+     */
+    private ApiCall<PronunciationResponse, ApiException> preparePronunciationRequest(
+            final String word) throws IOException {
+        return new ApiCall.Builder<PronunciationResponse, ApiException>()
+                .globalConfig(getGlobalConfiguration())
+                .requestBuilder(requestBuilder -> requestBuilder
+                        .server(Server.ENUM_DEFAULT.value())
+                        .path("/words/{word}/pronunciation")
+                        .templateParam(param -> param.key("word").value(word)
+                                .shouldEncode(true))
+                        .headerParam(param -> param.key("accept").value("application/json"))
+                        .withAuth(auth -> auth
+                                .add("RapidAPI-Key"))
+                        .httpMethod(HttpMethod.GET))
+                .responseHandler(responseHandler -> responseHandler
+                        .deserializer(
+                                response -> ApiHelper.deserialize(response, PronunciationResponse.class))
+                        .nullify404(false)
+                        .globalErrorCase(GLOBAL_ERROR_CASES))
+                .build();
+    }
+
+    /**
      * Retrieve information about a word. Results can include definitions, part of speech, synonyms,
      * related words, syllables, and pronunciation. This method is useful to see which relationships
      * are attached to which definition and part of speech of a word.
@@ -244,108 +346,6 @@ public final class APIsController extends BaseController {
                 .responseHandler(responseHandler -> responseHandler
                         .deserializer(
                                 response -> ApiHelper.deserialize(response, FrequencyResponse.class))
-                        .nullify404(false)
-                        .globalErrorCase(GLOBAL_ERROR_CASES))
-                .build();
-    }
-
-    /**
-     * Get definitions of a word, including the part of speech.
-     * @param  word  Required parameter: The word to search the definitions for.
-     * @return    Returns the DefinitionsResponse response from the API call
-     * @throws    ApiException    Represents error response from the server.
-     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
-     */
-    public DefinitionsResponse definitions(
-            final String word) throws ApiException, IOException {
-        return prepareDefinitionsRequest(word).execute();
-    }
-
-    /**
-     * Get definitions of a word, including the part of speech.
-     * @param  word  Required parameter: The word to search the definitions for.
-     * @return    Returns the DefinitionsResponse response from the API call
-     */
-    public CompletableFuture<DefinitionsResponse> definitionsAsync(
-            final String word) {
-        try { 
-            return prepareDefinitionsRequest(word).executeAsync(); 
-        } catch (Exception e) {  
-            throw new CompletionException(e); 
-        }
-    }
-
-    /**
-     * Builds the ApiCall object for definitions.
-     */
-    private ApiCall<DefinitionsResponse, ApiException> prepareDefinitionsRequest(
-            final String word) throws IOException {
-        return new ApiCall.Builder<DefinitionsResponse, ApiException>()
-                .globalConfig(getGlobalConfiguration())
-                .requestBuilder(requestBuilder -> requestBuilder
-                        .server(Server.ENUM_DEFAULT.value())
-                        .path("/words/{word}/definitions")
-                        .templateParam(param -> param.key("word").value(word)
-                                .shouldEncode(true))
-                        .headerParam(param -> param.key("accept").value("application/json"))
-                        .withAuth(auth -> auth
-                                .add("RapidAPI-Key"))
-                        .httpMethod(HttpMethod.GET))
-                .responseHandler(responseHandler -> responseHandler
-                        .deserializer(
-                                response -> ApiHelper.deserialize(response, DefinitionsResponse.class))
-                        .nullify404(false)
-                        .globalErrorCase(GLOBAL_ERROR_CASES))
-                .build();
-    }
-
-    /**
-     * How to pronounce a word, according to the International Phonetic Alphabet. May include
-     * multiple results if the word is pronounced differently depending on its part of speech.
-     * @param  word  Required parameter: The word to search pronunciation for.
-     * @return    Returns the PronunciationResponse response from the API call
-     * @throws    ApiException    Represents error response from the server.
-     * @throws    IOException    Signals that an I/O exception of some sort has occurred.
-     */
-    public PronunciationResponse pronunciation(
-            final String word) throws ApiException, IOException {
-        return preparePronunciationRequest(word).execute();
-    }
-
-    /**
-     * How to pronounce a word, according to the International Phonetic Alphabet. May include
-     * multiple results if the word is pronounced differently depending on its part of speech.
-     * @param  word  Required parameter: The word to search pronunciation for.
-     * @return    Returns the PronunciationResponse response from the API call
-     */
-    public CompletableFuture<PronunciationResponse> pronunciationAsync(
-            final String word) {
-        try { 
-            return preparePronunciationRequest(word).executeAsync(); 
-        } catch (Exception e) {  
-            throw new CompletionException(e); 
-        }
-    }
-
-    /**
-     * Builds the ApiCall object for pronunciation.
-     */
-    private ApiCall<PronunciationResponse, ApiException> preparePronunciationRequest(
-            final String word) throws IOException {
-        return new ApiCall.Builder<PronunciationResponse, ApiException>()
-                .globalConfig(getGlobalConfiguration())
-                .requestBuilder(requestBuilder -> requestBuilder
-                        .server(Server.ENUM_DEFAULT.value())
-                        .path("/words/{word}/pronunciation")
-                        .templateParam(param -> param.key("word").value(word)
-                                .shouldEncode(true))
-                        .headerParam(param -> param.key("accept").value("application/json"))
-                        .withAuth(auth -> auth
-                                .add("RapidAPI-Key"))
-                        .httpMethod(HttpMethod.GET))
-                .responseHandler(responseHandler -> responseHandler
-                        .deserializer(
-                                response -> ApiHelper.deserialize(response, PronunciationResponse.class))
                         .nullify404(false)
                         .globalErrorCase(GLOBAL_ERROR_CASES))
                 .build();

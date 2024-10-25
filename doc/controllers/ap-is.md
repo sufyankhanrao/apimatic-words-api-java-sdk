@@ -11,11 +11,11 @@ APIsController aPIsController = client.getAPIsController();
 ## Methods
 
 * [Synonyms](../../doc/controllers/ap-is.md#synonyms)
+* [Definitions](../../doc/controllers/ap-is.md#definitions)
+* [Pronunciation](../../doc/controllers/ap-is.md#pronunciation)
 * [Word](../../doc/controllers/ap-is.md#word)
 * [Examples](../../doc/controllers/ap-is.md#examples)
 * [Frequency](../../doc/controllers/ap-is.md#frequency)
-* [Definitions](../../doc/controllers/ap-is.md#definitions)
-* [Pronunciation](../../doc/controllers/ap-is.md#pronunciation)
 
 
 # Synonyms
@@ -63,6 +63,102 @@ aPIsController.synonymsAsync(word).thenAccept(result -> {
     "cover girl",
     "pin-up"
   ]
+}
+```
+
+
+# Definitions
+
+Get definitions of a word, including the part of speech.
+
+```java
+CompletableFuture<DefinitionsResponse> definitionsAsync(
+    final String word)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `word` | `String` | Template, Required | The word to search the definitions for. |
+
+## Response Type
+
+[`DefinitionsResponse`](../../doc/models/definitions-response.md)
+
+## Example Usage
+
+```java
+String word = "lovely";
+
+aPIsController.definitionsAsync(word).thenAccept(result -> {
+    // TODO success callback handler
+    System.out.println(result);
+}).exceptionally(exception -> {
+    // TODO failure callback handler
+    exception.printStackTrace();
+    return null;
+});
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "word": "lovely",
+  "definition": [
+    "lovable especially in a childlike or naive way",
+    "a very pretty girl who works as a photographer's model",
+    "appealing to the emotions as well as the eye"
+  ]
+}
+```
+
+
+# Pronunciation
+
+How to pronounce a word, according to the International Phonetic Alphabet. May include multiple results if the word is pronounced differently depending on its part of speech.
+
+```java
+CompletableFuture<PronunciationResponse> pronunciationAsync(
+    final String word)
+```
+
+## Parameters
+
+| Parameter | Type | Tags | Description |
+|  --- | --- | --- | --- |
+| `word` | `String` | Template, Required | The word to search pronunciation for. |
+
+## Response Type
+
+[`PronunciationResponse`](../../doc/models/pronunciation-response.md)
+
+## Example Usage
+
+```java
+String word = "wind";
+
+aPIsController.pronunciationAsync(word).thenAccept(result -> {
+    // TODO success callback handler
+    System.out.println(result);
+}).exceptionally(exception -> {
+    // TODO failure callback handler
+    exception.printStackTrace();
+    return null;
+});
+```
+
+## Example Response *(as JSON)*
+
+```json
+{
+  "word": "wind",
+  "pronunciation": {
+    "all": "wɪnd",
+    "noun": "wɪnd",
+    "verb": "waɪnd"
+  }
 }
 ```
 
@@ -193,102 +289,6 @@ aPIsController.frequencyAsync(word).thenAccept(result -> {
     "zipf": 4.81,
     "perMillion": 64.22,
     "diversity": 0.2
-  }
-}
-```
-
-
-# Definitions
-
-Get definitions of a word, including the part of speech.
-
-```java
-CompletableFuture<DefinitionsResponse> definitionsAsync(
-    final String word)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `word` | `String` | Template, Required | The word to search the definitions for. |
-
-## Response Type
-
-[`DefinitionsResponse`](../../doc/models/definitions-response.md)
-
-## Example Usage
-
-```java
-String word = "lovely";
-
-aPIsController.definitionsAsync(word).thenAccept(result -> {
-    // TODO success callback handler
-    System.out.println(result);
-}).exceptionally(exception -> {
-    // TODO failure callback handler
-    exception.printStackTrace();
-    return null;
-});
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "word": "lovely",
-  "definition": [
-    "lovable especially in a childlike or naive way",
-    "a very pretty girl who works as a photographer's model",
-    "appealing to the emotions as well as the eye"
-  ]
-}
-```
-
-
-# Pronunciation
-
-How to pronounce a word, according to the International Phonetic Alphabet. May include multiple results if the word is pronounced differently depending on its part of speech.
-
-```java
-CompletableFuture<PronunciationResponse> pronunciationAsync(
-    final String word)
-```
-
-## Parameters
-
-| Parameter | Type | Tags | Description |
-|  --- | --- | --- | --- |
-| `word` | `String` | Template, Required | The word to search pronunciation for. |
-
-## Response Type
-
-[`PronunciationResponse`](../../doc/models/pronunciation-response.md)
-
-## Example Usage
-
-```java
-String word = "wind";
-
-aPIsController.pronunciationAsync(word).thenAccept(result -> {
-    // TODO success callback handler
-    System.out.println(result);
-}).exceptionally(exception -> {
-    // TODO failure callback handler
-    exception.printStackTrace();
-    return null;
-});
-```
-
-## Example Response *(as JSON)*
-
-```json
-{
-  "word": "wind",
-  "pronunciation": {
-    "all": "wɪnd",
-    "noun": "wɪnd",
-    "verb": "waɪnd"
   }
 }
 ```
